@@ -7,11 +7,13 @@ import {
   Button,
   TouchableWithoutFeedback,
   Keyboard,
+  Alert,
 } from 'react-native';
 
 import Card from '../components/Card';
 import Colors from '../constants/color';
 import Input from '../components/Input';
+import NumberContainer from '../components/NumberContainer';
 
 const StartGameScreen = props => {
   const [enteredValue, setEnteredValue] = useState('');
@@ -29,18 +31,30 @@ const StartGameScreen = props => {
   const confirmInputHandler = () => {
     const chosenNumber = parseInt(enteredValue);
     console.log(typeof chosenNumber);
-    if (chosenNumber === NaN || chosenNumber == "NaN" || chosenNumber <= 0 || chosenNumber > 99) {
-        return;
+    if (isNaN(chosenNumber) || chosenNumber <= 0 || chosenNumber > 99) {
+      Alert.alert(
+        'Invalid number!',
+        'Number has to be a number between 1 and 99',
+        [{text: 'Okay', style: 'destructive', onPress: resetInputHandler}],
+      );
+      return;
     }
     setConfirmed(true);
     setEnteredValue('');
     setSelectedNumber(parseInt(enteredValue));
+    Keyboard.dismiss();
   };
 
   let confirmedOutput;
 
-  if(confirmed){
-      confirmedOutput = <Text> Chosen Number: {selectedNumber}</Text>
+  if (confirmed) {
+    confirmedOutput = (
+      <Card style = {styles.summaryContainer}> 
+        <Text> You selected </Text>
+        <NumberContainer>{selectedNumber}</NumberContainer>
+        <Button title="Start Game!" onPress  = {() => props.onStartGame(selectedNumber)}/>
+      </Card>
+    );
   }
 
   return (
@@ -72,7 +86,11 @@ const StartGameScreen = props => {
               />
             </View>
             <View style={styles.button}>
-              <Button title="Confirm" color={Colors.primary} onPress ={() => confirmInputHandler()} />
+              <Button
+                title="Confirm"
+                color={Colors.primary}
+                onPress={() => confirmInputHandler()}
+              />
             </View>
           </View>
         </Card>
@@ -90,7 +108,8 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 20,
-    marginVertical: '10',
+    marginVertical: 10,
+    fontFamily: "ZCOOLKuaiLe-Regular",
   },
   inputContainer: {
     width: 300,
@@ -110,6 +129,10 @@ const styles = StyleSheet.create({
     width: 50,
     textAlign: 'center',
   },
+  summaryContainer: {
+    marginTop: 20,
+    alignItems: 'center',
+  }
 });
 
 export default StartGameScreen;
