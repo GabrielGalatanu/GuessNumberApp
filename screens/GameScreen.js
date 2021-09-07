@@ -7,6 +7,7 @@ import {
   Alert,
   ScrollView,
   Dimensions,
+  useWindowDimensions
 } from 'react-native';
 
 import NumberContainer from '../components/NumberContainer';
@@ -35,6 +36,7 @@ const renderListItem = (value, numOfRounds) => (
 );
 
 const GameScreen = props => {
+  const window = useWindowDimensions();
   const initialGuess = generateRandomBetween(1, 100, props.userChoice);
   const [currentGuess, setCurrentGuess] = useState(initialGuess);
   const [pastGuesses, setPastGuesses] = useState([initialGuess]);
@@ -46,17 +48,22 @@ const GameScreen = props => {
   );
 
   useEffect(() => {
-    const updateLayout = () => {
-      setAvailableDeviceWidth(Dimensions.get('window').width);
-      setAvailableDeviceHeight(Dimensions.get('window').height);
-    };
+    // const updateLayout = () => {
+    //   //setAvailableDeviceWidth(Dimensions.get('window').width);
+    //   //setAvailableDeviceHeight(Dimensions.get('window').height);
+    // };
 
-    Dimensions.addEventListener('change', updateLayout);
+    // Dimensions.addEventListener('change', updateLayout);
 
-    return () => {
-      Dimensions.removeEventListener('change', updateLayout);
-    };
+    // return () => {
+    //   Dimensions.removeEventListener('change', updateLayout);
+    // };
   }, []);
+
+  useEffect(() => {
+    setAvailableDeviceWidth(window.width);
+    setAvailableDeviceHeight(window.height);
+  }, [window.width])
 
   const currentLow = useRef(1);
   const currentHigh = useRef(100);
