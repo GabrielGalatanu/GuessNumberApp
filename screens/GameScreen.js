@@ -16,6 +16,8 @@ import MainButton from '../components/MainButton';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
 
+import Orientation from 'react-native-orientation-locker';
+
 const generateRandomBetween = (min, max, exclude) => {
   min = Math.ceil(min);
   max = Math.floor(max);
@@ -48,8 +50,10 @@ const GameScreen = props => {
   );
 
   useEffect(() => {
+    Orientation.unlockAllOrientations();
+
     // const updateLayout = () => {
-    //   //setAvailableDeviceWidth(Dimensions.get('window').width);
+    //   //setAvailableDeviceWidth(Dimensions.get('window').width);s
     //   //setAvailableDeviceHeight(Dimensions.get('window').height);
     // };
 

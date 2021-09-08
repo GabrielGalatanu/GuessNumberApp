@@ -19,6 +19,9 @@ import Input from '../components/Input';
 import NumberContainer from '../components/NumberContainer';
 import MainButton from '../components/MainButton';
 
+
+import Orientation from 'react-native-orientation-locker';
+
 const StartGameScreen = props => {
   const [enteredValue, setEnteredValue] = useState('');
   const [confirmed, setConfirmed] = useState(false);
@@ -28,6 +31,9 @@ const StartGameScreen = props => {
   );
 
   useEffect(() => {
+    Orientation.lockToPortrait();
+   
+
     const updateLayout = () => {
       setButtonWidth(Dimensions.get('window').width / 4);
     };
